@@ -1,4 +1,6 @@
 import methods
+import keyboard
+from handlers import handle_new_message, handle_event_message
 from vk import vk
 import config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
@@ -12,6 +14,6 @@ while True:
     for event in events:
         print(event)
         if event.type == VkBotEventType.MESSAGE_NEW:
-            user_id = event.obj['message']['peer_id']
-            text = event.obj['message']['text']
-            methods.write_msg(user_id, text, None)
+            handle_new_message(event)
+        if event.type == VkBotEventType.MESSAGE_EVENT:
+            handle_event_message(event)
